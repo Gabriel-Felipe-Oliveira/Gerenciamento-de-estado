@@ -5,6 +5,7 @@ import 'package:flutter_gerenciamento_de_estado/models/cart.dart';
 import 'package:provider/provider.dart';
 
 import '../components/product_grid.dart';
+import '../models/product_list.dart';
 import '../utils/app_routes.dart';
 
 enum FilterOpitons {
@@ -21,9 +22,23 @@ class ProductsOverviewPage extends StatefulWidget {
 
 class _ProductsOverviewPageState extends State<ProductsOverviewPage> {
   bool _showFavoriteOnly = false;
+  bool _isLoading = true;
+  @override
+  void initState() {
+    
+    super.initState();
+    Provider.of<ProductList>(
+      context,listen:false 
+      ).loadProducts().then((value) {
+        setState(() {
+          _isLoading = false;
+        });
+      });
+  }
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    return 
+    Scaffold(
       appBar: AppBar(
         backgroundColor: Theme.of(context).colorScheme.primary,
         title: const Text('Minha loja'),
@@ -66,7 +81,7 @@ class _ProductsOverviewPageState extends State<ProductsOverviewPage> {
           ),
         ],
       ),
-      body: ProductGrid(_showFavoriteOnly),
+      body: _isLoading  ? const Center (child: CircularProgressIndicator(),): ProductGrid(_showFavoriteOnly),
       drawer: const AppDrawer(),
     );
   }

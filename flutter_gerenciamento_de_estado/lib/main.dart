@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_gerenciamento_de_estado/Pages/auth_page.dart';
 import 'package:flutter_gerenciamento_de_estado/Pages/orders_page.dart';
 import 'package:flutter_gerenciamento_de_estado/Pages/product_detail_page.dart';
 import 'package:flutter_gerenciamento_de_estado/Pages/product_form_page.dart';
 import 'package:flutter_gerenciamento_de_estado/Pages/products_overview_page.dart';
+import 'package:flutter_gerenciamento_de_estado/models/auth.dart';
 import 'package:flutter_gerenciamento_de_estado/models/cart.dart';
 import 'package:flutter_gerenciamento_de_estado/models/order_list.dart';
 import 'package:flutter_gerenciamento_de_estado/models/product_list.dart';
@@ -36,6 +38,9 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider(
           create: (_) => OrderList(),
         ),
+        ChangeNotifierProvider(
+          create: (_) => Auth(),
+        ),
       ],
       child: MaterialApp(
         title: 'Flutter Demo',
@@ -54,6 +59,7 @@ class MyApp extends StatelessWidget {
                 surface: Colors.purple,
                 onSurface: Colors.white)),
         routes: {
+          AppRoutes.auth: (ctx) => const AuthPage(),
           AppRoutes.home: (ctx) => const ProductsOverviewPage(),
           AppRoutes.productDetail: (ctx) => const ProductDetailPage(),
           // AppRoutes.counterPage: (ctx) => CouterPage()

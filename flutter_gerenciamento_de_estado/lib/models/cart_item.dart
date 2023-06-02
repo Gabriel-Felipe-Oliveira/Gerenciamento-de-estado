@@ -3,7 +3,7 @@ class CartItem {
   final String id;
   final String name;
   final int quantidade;
-  final double price;
+  final num price;
 
   CartItem({
     required this.productId,
