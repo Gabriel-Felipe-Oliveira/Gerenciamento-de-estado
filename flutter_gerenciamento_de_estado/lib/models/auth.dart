@@ -1,15 +1,28 @@
 import 'dart:convert';
-import 'dart:html';
-import 'dart:js';
-
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_gerenciamento_de_estado/exceptions/auth_exception.dart';
 import 'package:http/http.dart' as http;
 
-import '../utils/app_routes.dart';
-
 class Auth with ChangeNotifier{
+ String? _token;
+ String? _email;
+ String? _uid;
+ DateTime? _expiryDate;
 
+ bool get isAuth {
+  final isValid = _expiryDate?.isAfter(DateTime.now()) ?? false;
+  return  _token != null && isValid;
+ }
+
+ String? get token {
+  return isAuth ? _token : null;
+ }
+ String? get email {
+  return isAuth ? _email : null;
+ }
+ String? get uid {
+  return isAuth ? _uid : null;
+ }
 
 
 Future<void> _authenticate(String email, String password, String urlFragment) async{
@@ -23,26 +36,33 @@ Future<void> _authenticate(String email, String password, String urlFragment) as
     })
   );
   final body = jsonDecode(response.body);
+  print(body);
   if(body['error'] != null ){
     throw AuthException(body['error']['menssage']);
+  }else{
+   _token = body['idToken'];
+   _email = body['email'];
+   _uid = body['localId'];
+   _expiryDate = DateTime.now().add(
+    Duration(
+      seconds: int.parse(body['expiresIn'])
+
+   ),
+   );
+   notifyListeners();
   }
+  
+  
   
 }
 
 Future<void> signup(String email, String password) async{
-   _authenticate(email,password,'signUp');
+    return _authenticate(email,password,'signUp');
 }
 
 Future<void> login(String email, String password) async{
-  try{
-    final response = await _authenticate(email,password,'signInWithPassword');
-    print('Autenticação bem-sucedida');
-    
-  }
-  catch(error){
-   debugPrint(error.toString());
-  }
   
+   return _authenticate(email, password, 'signInWithPassword');
    
 }
 

@@ -73,15 +73,12 @@ class _AuthFormState extends State<AuthForm> {
         if(_isLogin()){
         //login
         await auth.login(_authData['email']!, _authData['password']!,);
-        _authData.clear();
-        _passwordController.clear();
-        _formKey.currentState?.reset();
+        
+      
     }else{
         //Registrar
         await auth.signup(_authData['email']!, _authData['password']!,);
-        _authData.clear();
-        _passwordController.clear();
-        _formKey.currentState?.reset();
+     
     }
     }on AuthException catch(error){
      _showErrorDialog(error.toString());
@@ -137,7 +134,7 @@ class _AuthFormState extends State<AuthForm> {
 
                 },
               ),
-              
+              if(_authMode == AuthMode.signup)
               AnimatedOpacity(
                 opacity: _myOpacity,
                 duration: const Duration(seconds: 2),

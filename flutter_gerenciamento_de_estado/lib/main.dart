@@ -12,6 +12,7 @@ import 'package:flutter_gerenciamento_de_estado/models/product_list.dart';
 import 'package:flutter_gerenciamento_de_estado/utils/app_routes.dart';
 import 'package:provider/provider.dart';
 
+import 'Pages/auth_or_home_page.dart';
 import 'Pages/cart_page.dart';
 import 'Pages/products_page.dart';
 
@@ -59,8 +60,8 @@ class MyApp extends StatelessWidget {
                 surface: Colors.purple,
                 onSurface: Colors.white)),
         routes: {
-          AppRoutes.auth: (ctx) => const AuthPage(),
-          AppRoutes.home: (ctx) => const ProductsOverviewPage(),
+          AppRoutes.authOrHome: (ctx) => const AuthOrHomePage(),
+          
           AppRoutes.productDetail: (ctx) => const ProductDetailPage(),
           // AppRoutes.counterPage: (ctx) => CouterPage()
           AppRoutes.cartPage: (ctx) => const CartPage(),
